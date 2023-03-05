@@ -1,4 +1,5 @@
 # Data
+
 Courses = [
     {
         "id": 1,
@@ -122,15 +123,14 @@ Rooms = [
 ]
 
 Subjects = {
-    "FY": [
-        {
-            "subjectID": "fy1",
-            "subjectName": "Maths",
-            "lectures_per_week": 0,
-            "tutorials_per_week": 0,
-            "practicals_per_week": 0,
-            "subjectCredits": 3
-        },
+    "FY": [{
+        "subjectID": "fy1",
+        "subjectName": "Maths",
+        "lectures_per_week": 0,
+        "tutorials_per_week": 0,
+        "practicals_per_week": 0,
+        "subjectCredits": 3
+    },
         {
             "subjectID": "fy2",
             "subjectName": "Chemistry",
@@ -354,13 +354,18 @@ Students = [
     }
 ]
 
-Times = [
-    ["t1", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "09:00 - 10:00"],
-    ["t2", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "10:00 - 11:00"],
-    ["t3", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "11:00 - 12:00"],
-    ["t4", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "12:00 - 01:00"],
-    ["t5", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "02:00 - 03:00"],
-    ["t6", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "03:00 - 04:00"],
-    ["t7", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "04:00 - 05:00"],
-    ["t8", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "05:00 - 06:00"]
-]
+Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+Times = {
+    "t1": "09:00-10:00",
+    "t2": "10:00-11:00",
+    "t3": "11:00-12:00",
+    "t4": "12:00-01:00",
+    "t5": "01:00-02:00",
+    "t6": "02:00-03:00",
+    "t7": "03:00-04:00",
+    "t8": "04:00-05:00"
+}
+
+NUM_DAYS = len(Days)
+NUM_HOURS = len(Days) * len(Times)
+POP_SIZE = 10

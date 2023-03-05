@@ -1,5 +1,5 @@
 class Course:
-    def __init__(self, courseID, courseName, coursePeriod):
+    def __init__(self):
         self.course = None
         self.courseID = None
         self.courseName = None

@@ -9,20 +9,6 @@ from Dependencies.Semester import Semester
 import DATA as data
 import random
 
-# Data
-
-Times = [
-    ["t1", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "09:00 - 10:00"],
-    ["t2", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "10:00 - 11:00"],
-    ["t3", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "11:00 - 12:00"],
-    ["t4", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "12:00 - 01:00"],
-    ["t5", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "02:00 - 03:00"],
-    ["t6", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "03:00 - 04:00"],
-    ["t7", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "04:00 - 05:00"],
-    ["t8", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "05:00 - 06:00"]
-]
-
-
 class TimeTable:
     def __init__(self, num_courses, num_teachers, num_student_groups, num_lectures):
         self.lectureID = 0
@@ -41,22 +27,32 @@ class TimeTable:
         self.num_students_groups = num_student_groups
 
     def generate_population(self):
+
         # for all courses
         for course in data.Courses:
-            self.courses.append(course["course"])
+            _course = Course()
+            _course.set_Course(course['id'], course['course'], course['total_semesters'])
+            course_details = _course.get_Course()
+            self.courses.append(course_details['courseName'])
 
         # for all semesters
         for semester in data.Semesters:
-            self.semesters.append(semester["Semester"])
+            sem = Semester()
+            sem.set_Semester(semester['Year'], semester['Semester'], semester['Subjects'], semester['Divisions'],
+                             semester['Teachers'])
+            sem_details = sem.get_Semester()
+            self.semesters.append(sem_details['Semester'])
 
-        # for all students
+        # for all subjects
         for year in data.Subjects:
-            for s in year:
+            _list = data.Subjects[year]
+            for subjects in _list:
                 sub = Subject()
-                sub.set_subject(s["subjectID"], s["subjectName"], s["lecture_per_week"], s["tutorials_per_week"],
-                                s["practicals_per_week"], s["subjectCredits"])
+                sub.set_subject(subjects['subjectID'], subjects["subjectName"], subjects["lectures_per_week"],
+                                subjects["tutorials_per_week"], subjects["practicals_per_week"],
+                                subjects["subjectCredits"])
                 sub_details = sub.get_subject()
-                self.subjects.append(sub_details[s])
+                self.subjects.append(sub_details['subjectName'])
 
         # generate random teachers
         for teacher in data.Teachers:
@@ -83,26 +79,25 @@ class TimeTable:
             self.students.append(sg_details["Student_Group_Name"])
 
         # for random timing--
-        for time in Times:
+        for time_id in data.Times:
             t = Timing()
-            t.set_time(time[0], random.choice(time[1]), time[2])
+            t.set_time(time_id, random.choice(data.Days), data.Times[time_id])
             time_details = t.get_time()
-            self.times.append(time_details["dayOfWeek"])
-            self.times.append(time_details["timeOfDay"])
+            self.times.append([time_details["dayOfWeek"], time_details["timeOfDay"]])
 
         # for random lecture
         for i in range(self.num_lectures):
             course = random.choice(self.courses)
             semester = random.choice(self.semesters)
+            teacher = random.choice(self.teachers)
             subject = random.choice(self.subjects)
             room = random.choice(self.rooms)
-            teacher = random.choice(self.teachers)
             student_group = random.choice(self.students)
             name = str(i + 1)
             time = random.choice(self.times)
-            l = Lecture()
-            l.set_lecture(name, course, semester, subject, room, teacher, student_group, time)
-            self.lectures.append(l.get_lecture())
+            lec = Lecture()
+            lec.set_lecture(name, course, semester, subject, room, teacher, student_group, time)
+            self.lectures.append(lec.get_lecture())
 
     def print_population(self):
         for lecture in self.lectures:
@@ -118,10 +113,13 @@ class TimeTable:
 
 
 # create a new TimeTableGenerator with 10 lectures, 5 teachers, 3 student groups and 20 students per group
-ttg = TimeTable(10, 5, 3, 3)
+NUM_COURSE = 3
+NUM_TEACH = 8
+NUM_SG = 6
+create_tt = TimeTable(NUM_COURSE, NUM_TEACH, NUM_SG, data.POP_SIZE)
 
 # generate a random population
-ttg.generate_population()
+create_tt.generate_population()
 
 # print the generated population
-ttg.print_population()
+create_tt.print_population()
