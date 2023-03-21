@@ -123,14 +123,15 @@ Rooms = [
 ]
 
 Subjects = {
-    "FY": [{
-        "subjectID": "fy1",
-        "subjectName": "Maths",
-        "lectures_per_week": 0,
-        "tutorials_per_week": 0,
-        "practicals_per_week": 0,
-        "subjectCredits": 3
-    },
+    "FY": [
+        {
+            "subjectID": "fy1",
+            "subjectName": "Maths",
+            "lectures_per_week": 0,
+            "tutorials_per_week": 0,
+            "practicals_per_week": 0,
+            "subjectCredits": 3
+        },
         {
             "subjectID": "fy2",
             "subjectName": "Chemistry",

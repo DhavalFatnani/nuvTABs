@@ -9,6 +9,7 @@ from Dependencies.Semester import Semester
 import DATA as data
 import random
 
+
 class TimeTable:
     def __init__(self, num_courses, num_teachers, num_student_groups, num_lectures):
         self.lectureID = 0
@@ -21,13 +22,13 @@ class TimeTable:
         self.students = []
         self.subjects = []
         self.times = []
+        self.teacher_subject = {}
         self.num_courses = num_courses
         self.num_lectures = num_lectures
         self.num_teachers = num_teachers
         self.num_students_groups = num_student_groups
 
     def generate_population(self):
-
         # for all courses
         for course in data.Courses:
             _course = Course()
@@ -61,6 +62,8 @@ class TimeTable:
                               teacher["teacherLoad"], teacher["assignedSubjects"])
             teacher_details = teach.get_teacher()
             self.teachers.append(teacher_details["teacherName"])
+            teacher_subject = {teacher_details["teacherName"]: teacher_details["teacherSubjects"]}
+            self.teacher_subject.update(teacher_subject)
 
         # for random Rooms
         for room in data.Rooms:
@@ -90,7 +93,7 @@ class TimeTable:
             course = random.choice(self.courses)
             semester = random.choice(self.semesters)
             teacher = random.choice(self.teachers)
-            subject = random.choice(self.subjects)
+            subject = random.choice(self.teacher_subject[teacher])
             room = random.choice(self.rooms)
             student_group = random.choice(self.students)
             name = str(i + 1)

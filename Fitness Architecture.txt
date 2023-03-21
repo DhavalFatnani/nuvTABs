@@ -1,0 +1,79 @@
+Fitness Architecture:
+
+fitness(x) = (g(x) * gW) + (h(x) ∗ hW) + (i(x) ∗ iW) + (j(x) ∗ jW) + (k(x) * kW) + + (l(x) * lW) + (m(x) * mW)
+
+x: chromosome
+g,h,i,j,k: contraints
+g - Subject Placement
+h - Lunch Break
+i - StudentGroup Rest time
+j - StudentGroup idle time
+k - Instructors Rest time
+l - Instructors Load
+m - Lectures Pattern
+
+idle time = number of vacant slots - allowed breaks , in context to a day
+if idle time > 0, then it is excess rest
+
+fitness(g) = (amount of placed subjects / total amount of committed slots) * 100
+fitness(h) = (days lunch break not from 12:00-1:00 / total number of days) * 100
+fitness(i) = (days without StudentGroup Rest time / total number of days) * 100
+fitness(j) = (days without excess rest / total number of days) * 100
+fitness(k) = (instructor days without rest / total number of teaching days) * 100
+fitness(l) = (amount of lectures per week by 1 instructor / total amount of lectures per week by n instructors) * 100
+fitness(m) = (amount of subjects abiding meeting pattern / (total amount of committed slots - subjects indivisible)) * 100
+
+
+
+The chromosome(x) having the highest fitness value will be the best possible solution, and will be eligible for crossover & mutation.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Hard Constraints:
+1. Instructor teaches One class at a time.
+2. Instructor teach according to their available schedule(i.e., student time table to be made in reference of Instructor time table).
+3. Instructors can only take N amount of subjects depending upon their maximum amount of load per week.
+4. Student Groups attend One class at a time.
+5. Subjects/Instructors will stay at One room unless there is a necessity to change.
+6. A Student Group with X subject that share with B Student Groups should produce a schedule that is compatible to all sharing Student Groups.
+7. Subjects will be assigned to an Instructor according to the instructions provide while configuration.
+
+Medium Constraints:
+1. Student Groups and Instructors should have a common lunch break time.
+2. Student Groups and Instructors should have a free lecture/lunch break after 3 consecutive hours of Interchanged Meetings.
+3. Instructors should have commonly distributed work load everyday of the week.
+
+Soft Constraints:
+1. Subjects should follow the meeting patterns defined.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Hard constraints
+classroom_availability = {
+    'classroom1': ['MWF 8:00-9:00', 'MWF 9:00-10:00', 'MWF 11:00-12:00', 'TR 1:00-2:30'],
+    'classroom2': ['MWF 10:00-11:00', 'TR 10:00-11:30', 'TR 2:30-4:00']
+}
+
+instructor_availability = {
+    'instructor1': ['MWF 8:00-9:00', 'MWF 9:00-10:00', 'TR 10:00-11:30'],
+    'instructor2': ['MWF 10:00-11:00', 'MWF 11:00-12:00', 'TR 1:00-2:30']
+}
+
+
+# Medium constraints
+course_priority = {
+    'course1': 'required',
+    'course2': 'elective'
+}
+
+
+# Soft constraints
+student_availability = {
+    'student1': ['MWF 10:00-12:00', 'TR 1:00-4:00'],
+    'student2': ['MWF 9:00-11:00', 'TR 2:30-4:00']
+}
+
+user_preferences = {
+    'preferred_times': ['MWF 10:00-12:00', 'TR 1:00-3:00'],
+    'avoid_times': ['MWF 8:00-9:00', 'TR 8:00-10:00']
+}
